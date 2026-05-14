@@ -153,82 +153,105 @@ export default function Rooms() {
               <div
                 key={room.id}
                 ref={(el) => (cardsRef.current[i] = el)}
-                className="fk-card absolute inset-0 p-6 md:p-9 flex flex-col"
+                className="fk-card absolute inset-0 overflow-hidden flex flex-col sm:flex-row"
                 style={{
                   willChange: 'transform, opacity',
-                  zIndex: i + 1, // later cards on top
+                  zIndex: i + 1,
                 }}
               >
-                <div className="flex items-start justify-between gap-4 mb-4">
-                  <p className="font-script text-[1.35rem] leading-none" style={{ color: 'var(--color-ink-soft)' }}>
-                    <span style={{ color: 'var(--color-accent)' }}>/ </span>
-                    {TAGLINES[i] || 'Recommended'}
-                  </p>
-                  <span
-                    className="font-body text-[11px] tracking-[0.18em] uppercase px-3 py-1 rounded-full"
-                    style={{
-                      backgroundColor: 'rgba(242,107,31,0.10)',
-                      color: 'var(--color-accent)',
-                    }}
-                  >
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-                </div>
-
-                <h3
-                  className="font-display font-extrabold leading-[0.95] tracking-[-0.03em] mb-3"
-                  style={{
-                    color: 'var(--color-ink)',
-                    fontSize: 'clamp(34px, 4.2vw, 54px)',
-                  }}
-                >
-                  {String(i + 1).padStart(2, '0')}. {room.name}
-                </h3>
-
-                <p
-                  className="font-body text-[14px] md:text-[15px] leading-relaxed mb-5 max-w-xl"
-                  style={{ color: 'var(--color-ink-soft)' }}
-                >
-                  {room.description}
-                </p>
-
-                <div className="flex flex-wrap gap-2 mb-auto">
-                  {room.features.slice(0, 5).map((f) => (
+                {/* Left: content */}
+                <div className="flex-1 p-6 md:p-8 flex flex-col min-w-0">
+                  <div className="flex items-start justify-between gap-4 mb-3">
+                    <p className="font-script text-[1.25rem] leading-none" style={{ color: 'var(--color-ink-soft)' }}>
+                      <span style={{ color: 'var(--color-accent)' }}>/ </span>
+                      {TAGLINES[i] || 'Recommended'}
+                    </p>
                     <span
-                      key={f}
-                      className="font-body text-[11px] tracking-wide px-3 py-1.5 rounded-full"
+                      className="font-body text-[11px] tracking-[0.18em] uppercase px-3 py-1 rounded-full flex-shrink-0"
                       style={{
-                        border: '1px solid var(--color-border)',
-                        color: 'var(--color-ink-soft)',
+                        backgroundColor: 'rgba(242,107,31,0.10)',
+                        color: 'var(--color-accent)',
                       }}
                     >
-                      {f}
+                      {String(i + 1).padStart(2, '0')}
                     </span>
-                  ))}
+                  </div>
+
+                  <h3
+                    className="font-display font-extrabold leading-[0.95] tracking-[-0.03em] mb-3"
+                    style={{
+                      color: 'var(--color-ink)',
+                      fontSize: 'clamp(26px, 3.3vw, 42px)',
+                    }}
+                  >
+                    {String(i + 1).padStart(2, '0')}. {room.name}
+                  </h3>
+
+                  <p
+                    className="font-body text-[13px] md:text-[14px] leading-relaxed mb-4"
+                    style={{ color: 'var(--color-ink-soft)' }}
+                  >
+                    {room.description}
+                  </p>
+
+                  <div className="flex flex-wrap gap-1.5 mb-auto">
+                    {room.features.slice(0, 4).map((f) => (
+                      <span
+                        key={f}
+                        className="font-body text-[10px] tracking-wide px-2.5 py-1 rounded-full"
+                        style={{
+                          border: '1px solid var(--color-border)',
+                          color: 'var(--color-ink-soft)',
+                        }}
+                      >
+                        {f}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="flex items-end justify-between gap-4 mt-5 pt-4 border-t" style={{ borderColor: 'var(--color-border)' }}>
+                    <div>
+                      <p className="font-body text-[10px] tracking-[0.2em] uppercase" style={{ color: 'var(--color-ink-faint)' }}>
+                        from
+                      </p>
+                      <p
+                        className="font-display font-bold tracking-[-0.02em]"
+                        style={{ color: 'var(--color-ink)', fontSize: '28px', lineHeight: 1 }}
+                      >
+                        ${room.price}
+                        <span className="font-body text-[12px] font-normal ml-1" style={{ color: 'var(--color-ink-soft)' }}>
+                          / night
+                        </span>
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => selectRoom(room.id)}
+                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full font-body text-[12px] font-medium text-white transition hover:brightness-110 active:scale-95"
+                      style={{ backgroundColor: 'var(--color-accent)' }}
+                    >
+                      Book this room
+                    </button>
+                  </div>
                 </div>
 
-                <div className="flex items-end justify-between gap-6 mt-6 pt-5 border-t" style={{ borderColor: 'var(--color-border)' }}>
-                  <div>
-                    <p className="font-body text-[10px] tracking-[0.2em] uppercase" style={{ color: 'var(--color-ink-faint)' }}>
-                      from
-                    </p>
-                    <p
-                      className="font-display font-bold tracking-[-0.02em]"
-                      style={{ color: 'var(--color-ink)', fontSize: '34px', lineHeight: 1 }}
-                    >
-                      ${room.price}
-                      <span className="font-body text-[12px] font-normal ml-1" style={{ color: 'var(--color-ink-soft)' }}>
-                        / night
-                      </span>
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => selectRoom(room.id)}
-                    className="inline-flex items-center gap-2 px-5 py-3 rounded-full font-body text-[13px] font-medium text-white transition hover:brightness-110 active:scale-95"
-                    style={{ backgroundColor: 'var(--color-accent)' }}
-                  >
-                    Book this room
-                  </button>
+                {/* Right: preview image */}
+                <div
+                  className="relative overflow-hidden flex-shrink-0 sm:w-[42%] md:w-[45%]"
+                  style={{ minHeight: 200 }}
+                >
+                  <img
+                    src={room.image}
+                    alt={room.name}
+                    className="absolute inset-0 w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                  <div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{
+                      background:
+                        'linear-gradient(135deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.18) 100%)',
+                    }}
+                  />
                 </div>
               </div>
             ))}

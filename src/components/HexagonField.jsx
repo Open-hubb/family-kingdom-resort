@@ -174,10 +174,6 @@ export default function HexagonField({
       style={{
         pointerEvents: 'none',
         opacity: faintMode ? 0.18 : 1,
-        maskImage:
-          'radial-gradient(ellipse 75% 65% at center, black 35%, transparent 92%)',
-        WebkitMaskImage:
-          'radial-gradient(ellipse 75% 65% at center, black 35%, transparent 92%)',
       }}
     />
   )

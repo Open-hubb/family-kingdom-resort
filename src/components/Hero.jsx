@@ -82,9 +82,10 @@ export default function Hero() {
   const wordStyle = {
     color: 'var(--color-ink)',
     opacity: 0,
-    fontSize: 'clamp(48px, 9vw, 124px)',
+    fontSize: 'clamp(44px, 7.4vw, 104px)',
     letterSpacing: '-0.05em',
     lineHeight: 0.85,
+    whiteSpace: 'nowrap',
   }
 
   return (

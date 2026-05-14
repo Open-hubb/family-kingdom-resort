@@ -3,11 +3,11 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 const LINES = [
-  'Thirty years on the Aberdeen Peninsula.',
-  'A family-run home for travellers, ',
-  'rooted in Sierra Leonean warmth.',
-  'We open the gate, pour the tea,',
-  'walk you to the sea — then leave you to it.',
+  { text: 'Thirty years on the Aberdeen Peninsula.', highlight: null },
+  { text: 'A family-run home for travellers,', highlight: 'family-run' },
+  { text: 'rooted in Sierra Leonean warmth.', highlight: null },
+  { text: 'We open the gate, pour the tea,', highlight: null },
+  { text: 'walk you to the sea — then leave you to it.', highlight: 'sea' },
 ]
 
 export default function Manifesto() {
@@ -16,24 +16,22 @@ export default function Manifesto() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      linesRef.current.forEach((el, i) => {
-        if (!el) return
-        gsap.fromTo(
-          el,
-          { yPercent: 105 },
-          {
-            yPercent: 0,
-            duration: 1,
-            ease: 'power3.out',
-            delay: i * 0.06,
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: 'top 70%',
-              toggleActions: 'play none none reverse',
-            },
-          }
-        )
-      })
+      gsap.fromTo(
+        linesRef.current.filter(Boolean),
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.9,
+          ease: 'power3.out',
+          stagger: 0.08,
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 80%',
+            once: true,
+          },
+        }
+      )
     }, sectionRef)
     return () => ctx.revert()
   }, [])
@@ -41,7 +39,7 @@ export default function Manifesto() {
   return (
     <section
       ref={sectionRef}
-      className="px-6 md:px-12 pt-0 pb-16 md:pb-24"
+      className="px-6 md:px-12 pt-4 pb-14 md:pt-6 md:pb-20"
       style={{ backgroundColor: 'transparent' }}
     >
       <div className="max-w-[1200px] mx-auto">
@@ -49,30 +47,31 @@ export default function Manifesto() {
           className="font-display font-extrabold tracking-[-0.04em] leading-[1.05]"
           style={{
             color: 'var(--color-ink)',
-            fontSize: 'clamp(36px, 6vw, 72px)',
+            fontSize: 'clamp(32px, 5.5vw, 64px)',
           }}
         >
-          {LINES.map((line, i) => (
-            <span key={i} className="block line-reveal">
+          {LINES.map((line, i) => {
+            const renderLine = () => {
+              if (!line.highlight) return line.text
+              const parts = line.text.split(line.highlight)
+              return (
+                <>
+                  {parts[0]}
+                  <span style={{ color: 'var(--color-accent)' }}>{line.highlight}</span>
+                  {parts[1]}
+                </>
+              )
+            }
+            return (
               <span
+                key={i}
                 ref={(el) => (linesRef.current[i] = el)}
                 className="block"
-                style={{ transform: 'translateY(105%)' }}
               >
-                {i === 1 ? (
-                  <>
-                    A <span style={{ color: 'var(--color-accent)' }}>family-run</span> home for travellers,
-                  </>
-                ) : i === 4 ? (
-                  <>
-                    walk you to the <span style={{ color: 'var(--color-accent)' }}>sea</span> — then leave you to it.
-                  </>
-                ) : (
-                  line
-                )}
+                {renderLine()}
               </span>
-            </span>
-          ))}
+            )
+          })}
         </h2>
       </div>
     </section>

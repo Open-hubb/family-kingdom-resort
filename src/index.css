@@ -1,25 +1,38 @@
 @import "tailwindcss";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/inter/800.css";
+@import "@fontsource/caveat/400.css";
+@import "@fontsource/caveat/500.css";
+@import "@fontsource/caveat/700.css";
 @import "@fontsource/cormorant/400.css";
-@import "@fontsource/cormorant/500.css";
 @import "@fontsource/cormorant/600.css";
-@import "@fontsource/cormorant/700.css";
-@import "@fontsource/montserrat/300.css";
-@import "@fontsource/montserrat/400.css";
-@import "@fontsource/montserrat/500.css";
-@import "@fontsource/montserrat/600.css";
-@import "@fontsource/montserrat/700.css";
 
 @theme {
-  --font-display: "Cormorant", serif;
-  --font-body: "Montserrat", sans-serif;
-  --color-offwhite: #F5F1EB;
-  --color-dark: #1A1A1A;
-  --color-dark-soft: #333333;
-  --color-accent: #C8A96E;
-  --color-accent-light: #E8D5A8;
-  --color-accent-dark: #A68B4B;
-  --color-cream: #FAF7F0;
-  --color-border: rgba(26, 26, 26, 0.08);
+  --font-display: "Inter", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-script: "Caveat", cursive;
+  --font-serif: "Cormorant", serif;
+
+  --color-bg: #ECECEC;
+  --color-bg-soft: #EEEDEA;
+  --color-card: #FFFFFF;
+  --color-ink: #111111;
+  --color-ink-soft: #5A5A5A;
+  --color-ink-faint: #8A8A8A;
+  --color-accent: #F26B1F;
+  --color-accent-soft: #FF8C50;
+  --color-border: rgba(17, 17, 17, 0.08);
+
+  /* legacy aliases kept so older components still compile while migrating */
+  --color-offwhite: #ECECEC;
+  --color-cream: #ECECEC;
+  --color-dark: #111111;
+  --color-dark-soft: #5A5A5A;
+  --color-accent-dark: #C7541A;
+  --color-accent-light: #FFB07A;
 }
 
 html {
@@ -28,8 +41,8 @@ html {
 
 body {
   font-family: var(--font-body);
-  color: var(--color-dark);
-  background-color: var(--color-offwhite);
+  color: var(--color-ink);
+  background-color: var(--color-bg);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -42,10 +55,23 @@ body {
 
 .font-display {
   font-family: var(--font-display);
+  letter-spacing: -0.03em;
 }
+.font-body { font-family: var(--font-body); }
+.font-script { font-family: var(--font-script); }
+.font-serif { font-family: var(--font-serif); }
 
-.font-body {
-  font-family: var(--font-body);
+.text-accent { color: var(--color-accent); }
+
+/* Soft inset orange glow frame on the page */
+.page-frame::before {
+  content: "";
+  position: fixed;
+  inset: 14px;
+  border-radius: 28px;
+  pointer-events: none;
+  z-index: 0;
+  box-shadow: inset 0 0 90px rgba(242, 107, 31, 0.16);
 }
 
 .grain::after {
@@ -54,50 +80,71 @@ body {
   inset: 0;
   z-index: 9999;
   pointer-events: none;
-  opacity: 0.025;
+  opacity: 0.02;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
   background-repeat: repeat;
   background-size: 256px;
 }
 
-::-webkit-scrollbar {
-  width: 5px;
-}
-::-webkit-scrollbar-track {
-  background: var(--color-offwhite);
-}
-::-webkit-scrollbar-thumb {
-  background: rgba(26, 26, 26, 0.15);
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(26, 26, 26, 0.3);
-}
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--color-bg); }
+::-webkit-scrollbar-thumb { background: rgba(17, 17, 17, 0.15); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(17, 17, 17, 0.3); }
 
-img {
-  transition: opacity 0.4s ease;
-}
+img { transition: opacity 0.4s ease; }
 
-.line-reveal {
-  overflow: hidden;
-}
-
-.line-reveal-inner {
-  display: block;
-  transform: translateY(105%);
-}
-
-.parallax-img {
-  will-change: transform;
-}
+.line-reveal { overflow: hidden; }
+.line-reveal-inner { display: block; transform: translateY(105%); }
+.parallax-img { will-change: transform; }
 
 @layer base {
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
   }
 }
 
-.swiper-slide {
-  height: auto !important;
+.swiper-slide { height: auto !important; }
+
+/* Soft card */
+.fk-card {
+  background: var(--color-card);
+  border-radius: 28px;
+  box-shadow: 0 30px 60px -28px rgba(0, 0, 0, 0.18), 0 4px 12px -4px rgba(0, 0, 0, 0.05);
+}
+
+/* Script eyebrow */
+.eyebrow {
+  font-family: var(--font-script);
+  font-weight: 500;
+  font-size: 1.35rem;
+  color: var(--color-ink-soft);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  line-height: 1;
+}
+.eyebrow::before { content: "/"; color: var(--color-accent); font-weight: 700; }
+
+/* Outlined display text (for the giant footer wordmark) */
+.outline-text {
+  -webkit-text-stroke: 1px #111111;
+  color: transparent;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+/* Marquee */
+@keyframes marquee-x {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-x {
+  animation: marquee-x 20s linear infinite;
+  will-change: transform;
+}
+.marquee-x:hover { animation-duration: 36s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-x { animation: none; }
 }

@@ -95,22 +95,23 @@ export default function Preloader({ onComplete }) {
     <div
       ref={containerRef}
       className="fixed inset-0 z-[100] flex flex-col items-center justify-center"
-      style={{ backgroundColor: '#0E0D0B' }}
+      style={{ backgroundColor: '#111111' }}
     >
       <div ref={nameRef} className="text-center" style={{ opacity: 0 }}>
         <p
           ref={subtitleRef}
-          className="font-body text-[11px] tracking-[0.35em] uppercase mb-6"
-          style={{ color: '#E8D5A8', opacity: 0 }}
+          className="font-script text-[22px] mb-3"
+          style={{ color: '#F26B1F', opacity: 0 }}
         >
-          Welcome to
+          / Welcome to
         </p>
         <h1
-          className="font-display text-5xl md:text-7xl font-light tracking-tight whitespace-nowrap"
+          className="font-display font-extrabold tracking-[-0.04em] whitespace-nowrap"
           style={{
-            color: '#F5F1EB',
+            color: '#ECECEC',
             fontVariantNumeric: 'tabular-nums',
-            letterSpacing: '0.01em',
+            fontSize: 'clamp(48px, 8vw, 96px)',
+            lineHeight: 1,
           }}
         >
           {displayText.split('').map((ch, i) => (
@@ -118,8 +119,8 @@ export default function Preloader({ onComplete }) {
               key={i}
               style={{
                 display: 'inline-block',
-                minWidth: ch === ' ' ? '0.4em' : 'auto',
-                color: ch === FINAL_TEXT[i] ? '#F5F1EB' : '#E8D5A8',
+                minWidth: ch === ' ' ? '0.3em' : 'auto',
+                color: ch === FINAL_TEXT[i] ? '#ECECEC' : '#F26B1F',
                 transition: 'color 0.2s',
               }}
             >
@@ -131,12 +132,12 @@ export default function Preloader({ onComplete }) {
       <div
         ref={barTrackRef}
         className="absolute bottom-16 left-1/2 -translate-x-1/2 w-48 h-px"
-        style={{ backgroundColor: 'rgba(232, 213, 168, 0.25)', opacity: 0 }}
+        style={{ backgroundColor: 'rgba(255,255,255,0.18)', opacity: 0 }}
       >
         <div
           ref={barFillRef}
           className="h-full origin-left"
-          style={{ backgroundColor: '#C8A96E', transform: 'scaleX(0)' }}
+          style={{ backgroundColor: '#F26B1F', transform: 'scaleX(0)' }}
         />
       </div>
     </div>

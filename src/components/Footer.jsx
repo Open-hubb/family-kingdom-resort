@@ -1,40 +1,95 @@
+import { Mail, Phone } from 'lucide-react'
+
+const MARQUEE_PHRASE = "Come stay with us"
+
 export default function Footer() {
+  const items = Array.from({ length: 8 }).map((_, i) => i)
+
   return (
-    <footer
-      className="py-12 px-6 md:px-10"
-      style={{
-        backgroundColor: 'var(--color-offwhite)',
-        borderTop: '1px solid var(--color-border)',
-      }}
-    >
-      <div className="max-w-[1400px] mx-auto">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault()
-              window.scrollTo({ top: 0, behavior: 'smooth' })
-            }}
-            className="font-display text-xl font-semibold tracking-tight cursor-pointer transition-opacity duration-200 hover:opacity-60"
-            style={{ color: 'var(--color-dark)' }}
-          >
-            Family Kingdom
-          </a>
+    <footer id="contact" className="relative pt-24 md:pt-32 pb-8 overflow-hidden">
+      {/* Giant outlined wordmark */}
+      <div
+        className="relative w-full flex justify-center pointer-events-none select-none"
+        aria-hidden="true"
+        style={{ overflow: 'hidden' }}
+      >
+        <h2
+          className="outline-text whitespace-nowrap"
+          style={{
+            fontSize: 'clamp(120px, 22vw, 280px)',
+            lineHeight: 0.85,
+            opacity: 0.22,
+          }}
+        >
+          Family Kingdom
+        </h2>
+      </div>
 
-          <p
-            className="font-body text-[11px] tracking-wide text-center"
-            style={{ color: 'var(--color-dark-soft)', opacity: 0.4 }}
-          >
-            &copy; {new Date().getFullYear()} The Family Kingdom Resort. Aberdeen, Freetown, Sierra Leone.
-          </p>
-
-          <p
-            className="font-body text-[11px] tracking-wide"
-            style={{ color: 'var(--color-dark-soft)', opacity: 0.3 }}
-          >
-            Endorsed by Sierra Leone National Tourist Board
-          </p>
+      {/* Marquee strip */}
+      <div className="my-12 md:my-16 overflow-hidden">
+        <div
+          className="flex whitespace-nowrap marquee-x items-center gap-12 md:gap-16"
+          style={{ width: 'max-content' }}
+        >
+          {items.map((i) => (
+            <span
+              key={i}
+              className="font-display font-extrabold tracking-[-0.03em] inline-flex items-center gap-10 md:gap-14"
+              style={{
+                color: 'var(--color-ink)',
+                fontSize: 'clamp(48px, 8vw, 96px)',
+                lineHeight: 1,
+              }}
+            >
+              {MARQUEE_PHRASE}
+              <span style={{ color: 'var(--color-accent)', fontWeight: 800 }} aria-hidden="true">
+                ✱
+              </span>
+            </span>
+          ))}
         </div>
+      </div>
+
+      {/* Contact lines */}
+      <div className="max-w-[900px] mx-auto px-6 text-center">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-10 items-center justify-center mb-10">
+          <a
+            href="mailto:info@familykingdomresort.com"
+            className="inline-flex items-center gap-2.5 font-body text-[15px] md:text-[16px] hover:opacity-70 transition"
+            style={{ color: 'var(--color-ink)' }}
+          >
+            <Mail size={16} strokeWidth={1.75} />
+            info@familykingdomresort.com
+          </a>
+          <a
+            href="tel:+23276601007"
+            className="inline-flex items-center gap-2.5 font-body text-[15px] md:text-[16px] hover:opacity-70 transition"
+            style={{ color: 'var(--color-ink)' }}
+          >
+            <Phone size={16} strokeWidth={1.75} />
+            +232 76 601007
+          </a>
+        </div>
+
+        <p className="font-body text-[13px] mb-1" style={{ color: 'var(--color-ink-soft)' }}>
+          78 Cape Road, Aberdeen, Freetown, Sierra Leone
+        </p>
+        <p className="font-script text-[18px]" style={{ color: 'var(--color-ink-soft)' }}>
+          24-hour reception &middot; complimentary airport transfer
+        </p>
+      </div>
+
+      {/* Bottom row */}
+      <div
+        className="mt-12 md:mt-16 pt-6 border-t max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between"
+        style={{ borderColor: 'var(--color-border)' }}
+      >
+        <p className="font-body text-[12px]" style={{ color: 'var(--color-ink-faint)' }}>
+          © {new Date().getFullYear()}
+        </p>
+        <p className="font-body text-[12px]" style={{ color: 'var(--color-ink-faint)' }}>
+          All rights reserved.
+        </p>
       </div>
     </footer>
   )

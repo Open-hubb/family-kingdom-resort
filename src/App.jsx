@@ -3,21 +3,17 @@ import Lenis from 'lenis'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { BookingProvider } from './context/BookingContext'
-import Navbar from './components/Navbar'
 import Hero from './components/Hero'
-import About from './components/About'
+import Manifesto from './components/Manifesto'
 import Rooms from './components/Rooms'
-import Dining from './components/Dining'
-import Recreation from './components/Recreation'
-import Events from './components/Events'
+import Awards from './components/Awards'
 import Testimonials from './components/Testimonials'
-import Contact from './components/Contact'
+import FAQ from './components/FAQ'
 import Footer from './components/Footer'
 import Preloader from './components/Preloader'
 import BookingModal from './components/BookingModal'
-import Marquee from './components/Marquee'
-import CustomCursor from './components/CustomCursor'
-import SpaceBackground from './components/SpaceBackground'
+import BottomNav from './components/BottomNav'
+import BackToTop from './components/BackToTop'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -26,10 +22,12 @@ export default function App() {
   const lenisRef = useRef(null)
 
   useEffect(() => {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reduceMotion) return
+
     const lenis = new Lenis({
-      duration: 1.6,
+      duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      lerp: 0.08,
       smoothWheel: true,
       wheelMultiplier: 1.0,
       touchMultiplier: 2,
@@ -37,17 +35,24 @@ export default function App() {
     })
     lenisRef.current = lenis
 
+    // Hook Lenis into ScrollTrigger
+    lenis.on('scroll', ScrollTrigger.update)
+
     function raf(time) {
       lenis.raf(time)
       requestAnimationFrame(raf)
     }
     requestAnimationFrame(raf)
 
-    lenis.on('scroll', ScrollTrigger.update)
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000)
+    ScrollTrigger.scrollerProxy(document.body, {
+      scrollTop(value) {
+        if (arguments.length) lenis.scrollTo(value, { immediate: true })
+        return window.scrollY
+      },
+      getBoundingClientRect() {
+        return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight }
+      },
     })
-    gsap.ticker.lagSmoothing(0)
 
     return () => {
       lenis.destroy()
@@ -60,25 +65,21 @@ export default function App() {
 
   return (
     <BookingProvider>
-      <div className="grain">
+      <div className="grain page-frame relative" style={{ backgroundColor: 'var(--color-bg)' }}>
         {!isLoaded && <Preloader onComplete={handlePreloaderComplete} />}
-        <CustomCursor />
-        <SpaceBackground />
-        <div style={{ position: 'relative', zIndex: 2 }}>
-        <Navbar />
-        <main>
+
+        <main className="relative" style={{ zIndex: 1 }}>
           <Hero />
-          <Marquee />
-          <About />
+          <Manifesto />
           <Rooms />
-          <Dining />
-          <Recreation />
-          <Events />
+          <Awards />
           <Testimonials />
-          <Contact />
+          <FAQ />
         </main>
         <Footer />
-        </div>
+
+        <BottomNav />
+        <BackToTop />
         <BookingModal />
       </div>
     </BookingProvider>

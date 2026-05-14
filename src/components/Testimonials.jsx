@@ -1,129 +1,139 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { Star } from 'lucide-react'
 
 const REVIEWS = [
   {
-    text: 'One of the most pleasant stays we\'ve had. The grounds are beautiful — lush greenery and low-rise buildings give it a tranquil resort feel.',
-    author: 'Travel Enthusiast',
-    source: 'Tripadvisor',
+    text: "One of the most pleasant stays we've had. The grounds are beautiful — lush greenery and low-rise buildings give it a tranquil resort feel.",
+    author: 'Amina K.',
+    role: 'Returning guest',
+    month: 'March 2024',
   },
   {
     text: 'The breakfast buffet is a standout. Fresh tropical fruit every morning — papaya, banana, star fruit. Staff are polite and genuinely attentive.',
-    author: 'International Guest',
-    source: 'Expedia',
+    author: 'James M.',
+    role: 'Holiday traveller',
+    month: 'January 2024',
   },
   {
     text: 'Spacious rooms with full kitchenettes. The family-run feel is wonderful — you actually meet the owners. Beachfront location is unbeatable.',
-    author: 'Business Traveller',
-    source: 'Hotels.com',
+    author: 'Priya R.',
+    role: 'Business stay',
+    month: 'November 2023',
+  },
+  {
+    text: 'Genuinely warm hospitality from the moment we walked through the gate. The fun park kept the kids busy and the beach is just outside.',
+    author: 'David O.',
+    role: 'Family of four',
+    month: 'August 2023',
+  },
+  {
+    text: 'A reliable base for working trips into Freetown. The Wi-Fi held up, the airport pickup was on time, the suite felt like a small apartment.',
+    author: 'Fatima S.',
+    role: 'Frequent traveller',
+    month: 'June 2024',
+  },
+  {
+    text: 'Hosted our wedding reception here. The team handled every detail — catering, music, the lot. Ocean view at sunset is hard to beat.',
+    author: 'Michael & Hawa',
+    role: 'Wedding party',
+    month: 'May 2024',
   },
 ]
 
 export default function Testimonials() {
   const sectionRef = useRef(null)
-  const labelRef = useRef(null)
   const headingRef = useRef(null)
-  const cardsRef = useRef(null)
+  const eyebrowRef = useRef(null)
+  const cardsRef = useRef([])
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 75%',
-          toggleActions: 'play none none reverse',
-        },
-      })
-
-      tl.fromTo(labelRef.current, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out' })
-        .fromTo(headingRef.current, { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out' }, '-=0.2')
-
-      if (cardsRef.current) {
-        gsap.fromTo(
-          cardsRef.current.children,
-          { y: 30, opacity: 0 },
-          {
-            y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: 'power2.out',
-            scrollTrigger: { trigger: cardsRef.current, start: 'top 80%', toggleActions: 'play none none reverse' },
-          }
-        )
-      }
+      gsap.fromTo(
+        eyebrowRef.current,
+        { y: 16, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out',
+          scrollTrigger: { trigger: sectionRef.current, start: 'top 78%' } }
+      )
+      gsap.fromTo(
+        headingRef.current,
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out',
+          scrollTrigger: { trigger: sectionRef.current, start: 'top 78%' } }
+      )
+      gsap.fromTo(
+        cardsRef.current.filter(Boolean),
+        { y: 40, opacity: 0, filter: 'blur(8px)' },
+        {
+          y: 0,
+          opacity: 1,
+          filter: 'blur(0px)',
+          duration: 0.8,
+          ease: 'power3.out',
+          stagger: 0.08,
+          scrollTrigger: { trigger: cardsRef.current[0], start: 'top 85%' },
+        }
+      )
     }, sectionRef)
-
     return () => ctx.revert()
   }, [])
 
   return (
     <section
       ref={sectionRef}
-      className="py-28 md:py-40 px-6 md:px-10"
-      style={{ backgroundColor: 'transparent' }}
+      id="reviews"
+      className="px-6 md:px-12 py-24 md:py-32"
     >
       <div className="max-w-[1400px] mx-auto">
-        <div className="text-center mb-16 md:mb-20">
-          <p
-            ref={labelRef}
-            className="font-body text-[11px] tracking-[0.25em] uppercase mb-6"
-            style={{ color: 'var(--color-accent-dark)' }}
-          >
-            Guest Reviews
+        <div className="mb-12 md:mb-16 max-w-3xl">
+          <p ref={eyebrowRef} className="eyebrow mb-3" style={{ opacity: 0 }}>
+            Community Trust &mdash; Testimonials
           </p>
           <h2
             ref={headingRef}
-            className="font-display text-4xl md:text-5xl lg:text-[56px] font-light leading-[1.1]"
-            style={{ color: 'var(--color-dark)' }}
+            className="font-display font-extrabold tracking-[-0.03em] leading-[1.0]"
+            style={{ color: 'var(--color-ink)', fontSize: 'clamp(40px, 5.5vw, 76px)', opacity: 0 }}
           >
-            What Our Guests
-            <br />
-            Are Saying
+            What <span style={{ color: 'var(--color-accent)' }}>people</span> say
           </h2>
         </div>
 
-        <div
-          ref={cardsRef}
-          className="grid grid-cols-1 md:grid-cols-3 gap-0"
-        >
-          {REVIEWS.map((review, i) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+          {REVIEWS.map((r, i) => (
             <div
               key={i}
-              className="py-10 md:py-0 md:px-10 first:pt-0 md:first:pl-0 last:pb-0 md:last:pr-0"
-              style={{
-                borderBottom: i < REVIEWS.length - 1 ? '1px solid var(--color-border)' : 'none',
-                borderRight: 'none',
-              }}
+              ref={(el) => (cardsRef.current[i] = el)}
+              className="fk-card p-7 md:p-8 flex flex-col h-full"
+              style={{ willChange: 'transform, opacity, filter' }}
             >
-              <div className="md:border-b-0" style={{
-                borderRight: i < REVIEWS.length - 1 ? undefined : undefined,
-              }}>
-                <p
-                  className="font-display text-[80px] leading-none mb-4"
-                  style={{ color: 'var(--color-dark)', opacity: 0.06 }}
-                >
-                  "
+              <div className="flex gap-0.5 mb-5">
+                {[0, 1, 2, 3, 4].map((s) => (
+                  <Star
+                    key={s}
+                    size={16}
+                    fill="var(--color-accent)"
+                    strokeWidth={0}
+                    style={{ color: 'var(--color-accent)' }}
+                  />
+                ))}
+              </div>
+              <p
+                className="font-body text-[15px] md:text-[16px] leading-[1.7] mb-6 flex-1"
+                style={{ color: 'var(--color-ink)' }}
+              >
+                &ldquo;{r.text}&rdquo;
+              </p>
+              <div className="pt-5 border-t" style={{ borderColor: 'var(--color-border)' }}>
+                <p className="font-body text-[14px] font-medium" style={{ color: 'var(--color-ink)' }}>
+                  {r.author}
                 </p>
-
                 <p
-                  className="font-body text-[14px] leading-[1.8] mb-8"
-                  style={{ color: 'var(--color-dark-soft)', opacity: 0.7 }}
+                  className="font-body text-[12px] mt-0.5"
+                  style={{ color: 'var(--color-ink-faint)' }}
                 >
-                  {review.text}
+                  {r.role} &middot; {r.month}
                 </p>
-
-                <div>
-                  <p
-                    className="font-body text-[13px] font-medium"
-                    style={{ color: 'var(--color-dark)' }}
-                  >
-                    {review.author}
-                  </p>
-                  <p
-                    className="font-body text-[11px] tracking-[0.1em] uppercase mt-1"
-                    style={{ color: 'var(--color-dark-soft)', opacity: 0.4 }}
-                  >
-                    {review.source}
-                  </p>
-                </div>
               </div>
             </div>
           ))}

@@ -1,40 +1,56 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import HeroParticles from './HeroParticles'
+import HexagonField from './HexagonField'
 
 export default function Hero() {
   const sectionRef = useRef(null)
-  const nameRef = useRef(null)
+  const leftEyebrowRef = useRef(null)
+  const rightEyebrowRef = useRef(null)
+  const leftWordRef = useRef(null)
+  const rightWordRef = useRef(null)
+  const portraitRef = useRef(null)
   const subtitleRef = useRef(null)
-  const ctaRef = useRef(null)
-  const overlayRef = useRef(null)
-  const imgRef = useRef(null)
+
+  const [now, setNow] = useState(() => formatTime(new Date()))
+
+  useEffect(() => {
+    const id = setInterval(() => setNow(formatTime(new Date())), 30 * 1000)
+    return () => clearInterval(id)
+  }, [])
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ delay: 2.8 })
+      const tl = gsap.timeline({ delay: 4.4 })
 
       tl.fromTo(
-        nameRef.current,
-        { y: 40, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1.2, ease: 'power3.out' }
+        [leftEyebrowRef.current, rightEyebrowRef.current],
+        { y: 16, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out', stagger: 0.08 }
       )
-      .fromTo(
-        subtitleRef.current,
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out' },
-        '-=0.5'
-      )
-      .fromTo(
-        ctaRef.current,
-        { y: 15, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out' },
-        '-=0.3'
-      )
+        .fromTo(
+          [leftWordRef.current, rightWordRef.current],
+          { y: 40, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', stagger: 0.1 },
+          '-=0.3'
+        )
+        .fromTo(
+          portraitRef.current,
+          { y: 60, opacity: 0, scale: 0.94 },
+          { y: 0, opacity: 1, scale: 1, duration: 1.1, ease: 'power3.out' },
+          '-=0.7'
+        )
+        .fromTo(
+          subtitleRef.current,
+          { y: 14, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out' },
+          '-=0.4'
+        )
 
-      gsap.to(imgRef.current, {
-        yPercent: 15,
+      // Scroll-out parallax
+      gsap.to(portraitRef.current, {
+        rotateY: -8,
+        yPercent: -10,
         ease: 'none',
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -43,13 +59,13 @@ export default function Hero() {
           scrub: true,
         },
       })
-
-      gsap.to(overlayRef.current, {
-        opacity: 0.6,
+      gsap.to([leftWordRef.current, rightWordRef.current], {
+        opacity: 0.3,
+        ease: 'none',
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top top',
-          end: 'bottom top',
+          end: 'bottom 60%',
           scrub: true,
         },
       })
@@ -58,94 +74,124 @@ export default function Hero() {
     return () => ctx.revert()
   }, [])
 
-  const scrollToRooms = (e) => {
-    e.preventDefault()
-    document.querySelector('#rooms')?.scrollIntoView({ behavior: 'smooth' })
+  // Portrait 3D tilt on mouse move
+  const handlePortraitMove = (e) => {
+    const el = portraitRef.current
+    if (!el) return
+    const rect = el.getBoundingClientRect()
+    const x = (e.clientX - rect.left) / rect.width - 0.5
+    const y = (e.clientY - rect.top) / rect.height - 0.5
+    el.style.transform = `perspective(1200px) rotateX(${-y * 8}deg) rotateY(${x * 8}deg) scale(1.01)`
+  }
+  const handlePortraitLeave = () => {
+    if (portraitRef.current) {
+      portraitRef.current.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg) scale(1)'
+    }
   }
 
   return (
     <section
       ref={sectionRef}
-      className="relative h-screen min-h-[700px] overflow-hidden flex items-center justify-center"
+      className="relative min-h-screen flex items-center overflow-hidden"
+      id="home"
     >
+      {/* Hexagon honeycomb 3D background */}
+      <div className="absolute inset-0">
+        <HexagonField />
+      </div>
+
+      {/* Subtle radial vignette over the hex field to keep center clean for text */}
       <div
-        ref={imgRef}
-        className="absolute inset-0 w-full h-[120%] -top-[10%]"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: `url('/images/deluxe-single/1.jpeg')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          background:
+            'radial-gradient(ellipse 50% 40% at center, rgba(236,236,236,0.65) 0%, rgba(236,236,236,0) 70%)',
         }}
       />
 
-      <div
-        ref={overlayRef}
-        className="absolute inset-0"
-        style={{
-          background: 'linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.5) 100%)',
-        }}
-      />
-
-      <HeroParticles />
-
-      <div className="hidden md:flex absolute left-6 top-1/2 -translate-y-1/2 z-20 items-center gap-3 -rotate-90 origin-left">
-        <span className="block w-12 h-px" style={{ backgroundColor: 'rgba(255,255,255,0.4)' }} />
-        <span className="font-body text-[10px] tracking-[0.35em] uppercase text-white/60">
-          N° 01 / Arrival
-        </span>
-      </div>
-
-      <div className="hidden md:flex absolute right-6 top-1/2 -translate-y-1/2 z-20 items-center gap-3 rotate-90 origin-right">
-        <span className="font-body text-[10px] tracking-[0.35em] uppercase text-white/60">
-          08° 28' N · 13° 14' W
-        </span>
-        <span className="block w-12 h-px" style={{ backgroundColor: 'rgba(255,255,255,0.4)' }} />
-      </div>
-
-      <div className="relative z-10 text-center px-6">
-        <h1
-          ref={nameRef}
-          className="font-display text-6xl sm:text-7xl md:text-8xl lg:text-[120px] font-light tracking-tight leading-[0.9] text-white"
-          style={{ opacity: 0 }}
-        >
-          Family
-          <br />
-          <span className="italic font-extralight" style={{ color: '#E8C690' }}>Kingdom</span>
-        </h1>
-
-        <div className="flex items-center justify-center gap-4 mt-4">
-          <span className="block w-12 h-px" style={{ backgroundColor: 'rgba(232,198,144,0.6)' }} />
-          <span className="block w-1 h-1 rounded-full" style={{ backgroundColor: '#E8C690' }} />
-          <span className="block w-12 h-px" style={{ backgroundColor: 'rgba(232,198,144,0.6)' }} />
+      <div className="relative w-full max-w-[1600px] mx-auto px-6 md:px-12 py-32 grid grid-cols-12 items-center gap-6">
+        {/* LEFT — FAMILY */}
+        <div className="col-span-12 md:col-span-4 text-center md:text-left order-2 md:order-1">
+          <p
+            ref={leftEyebrowRef}
+            className="eyebrow mb-4 md:mb-6"
+            style={{ opacity: 0 }}
+          >
+            Seaside Resort &amp; Beachfront Estate
+          </p>
+          <h1
+            ref={leftWordRef}
+            className="font-display text-[68px] sm:text-[96px] md:text-[120px] lg:text-[140px] font-extrabold leading-[0.85] tracking-[-0.04em]"
+            style={{ color: 'var(--color-ink)', opacity: 0 }}
+          >
+            FAMILY
+          </h1>
         </div>
 
-        <p
-          ref={subtitleRef}
-          className="font-body text-[11px] md:text-[12px] tracking-[0.3em] uppercase text-white/60 mt-6"
-          style={{ opacity: 0 }}
-        >
-          Seaside Resort &middot; Freetown, Sierra Leone
-        </p>
-      </div>
+        {/* CENTER — portrait card */}
+        <div className="col-span-12 md:col-span-4 flex justify-center order-1 md:order-2">
+          <div
+            ref={portraitRef}
+            onMouseMove={handlePortraitMove}
+            onMouseLeave={handlePortraitLeave}
+            className="fk-card overflow-hidden"
+            style={{
+              width: 'min(78vw, 320px)',
+              aspectRatio: '3 / 4',
+              opacity: 0,
+              transition: 'transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)',
+              transformStyle: 'preserve-3d',
+              willChange: 'transform',
+            }}
+          >
+            <img
+              src="/images/suite-mansion/1.jpeg"
+              alt="Family Kingdom Resort"
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </div>
 
-      <div
-        ref={ctaRef}
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10"
-        style={{ opacity: 0 }}
-      >
-        <a
-          href="#rooms"
-          onClick={scrollToRooms}
-          className="font-body text-[11px] tracking-[0.12em] uppercase px-8 py-3 rounded-full cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95"
-          style={{
-            border: '1px solid rgba(255,255,255,0.4)',
-            color: 'white',
-            backgroundColor: 'transparent',
-          }}
-        >
-          Book Your Stay
-        </a>
+        {/* RIGHT — KINGDOM */}
+        <div className="col-span-12 md:col-span-4 text-center md:text-right order-3">
+          <p
+            ref={rightEyebrowRef}
+            className="eyebrow mb-4 md:mb-6 md:justify-end"
+            style={{ opacity: 0 }}
+          >
+            Hospitality since 1994
+          </p>
+          <h1
+            ref={rightWordRef}
+            className="font-display text-[68px] sm:text-[96px] md:text-[120px] lg:text-[140px] font-extrabold leading-[0.85] tracking-[-0.04em]"
+            style={{ color: 'var(--color-ink)', opacity: 0 }}
+          >
+            KINGDOM
+          </h1>
+          <p
+            ref={subtitleRef}
+            className="font-body text-[13px] mt-6 md:mt-8"
+            style={{ color: 'var(--color-ink-soft)', opacity: 0 }}
+          >
+            Aberdeen, Freetown &middot; <span className="tabular-nums">{now}</span>
+          </p>
+        </div>
       </div>
     </section>
   )
+}
+
+function formatTime(d) {
+  try {
+    const fmt = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Africa/Freetown',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    })
+    const time = fmt.format(d)
+    return `${time} GMT+0`
+  } catch {
+    return '—'
+  }
 }

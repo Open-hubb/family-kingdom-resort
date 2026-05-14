@@ -103,7 +103,7 @@ export default function Preloader({ onComplete }) {
           className="font-body text-[11px] tracking-[0.35em] uppercase mb-6"
           style={{ color: '#E8D5A8', opacity: 0 }}
         >
-          Resort &middot; Freetown
+          Welcome to
         </p>
         <h1
           className="font-display text-5xl md:text-7xl font-light tracking-tight whitespace-nowrap"

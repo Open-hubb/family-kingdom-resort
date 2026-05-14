@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, lazy, Suspense } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import HexagonField from './HexagonField'
+
+const HexagonField = lazy(() => import('./HexagonField'))
 
 export default function Hero() {
   const sectionRef = useRef(null)
@@ -95,10 +96,10 @@ export default function Hero() {
       id="home"
       style={{ minHeight: 'min(820px, 78vh)' }}
     >
-      {/* Hexagon honeycomb 3D background */}
-      <div className="absolute inset-0">
-        <HexagonField />
-      </div>
+      {/* Hexagon honeycomb 3D background (lazy-loaded; skipped on save-data / very small screens) */}
+      <Suspense fallback={null}>
+        <HeroHexLayer />
+      </Suspense>
 
       {/* Subtle radial vignette over the hex field to keep center clean for text */}
       <div
@@ -166,6 +167,43 @@ export default function Hero() {
         </div>
       </div>
     </section>
+  )
+}
+
+function HeroHexLayer() {
+  const [enabled, setEnabled] = useState(false)
+  const [params, setParams] = useState({ rows: 14, cols: 22 })
+
+  useEffect(() => {
+    // Respect Save-Data
+    const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection
+    if (conn && (conn.saveData || conn.effectiveType === 'slow-2g' || conn.effectiveType === '2g')) {
+      return
+    }
+    // Reduced motion: skip the 3D layer entirely (we have the radial vignette and inset glow)
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    // Scale density to viewport so small screens render fewer cells
+    const w = window.innerWidth
+    const h = window.innerHeight
+    if (w < 640) setParams({ rows: 10, cols: 12 })
+    else if (w < 1024) setParams({ rows: 12, cols: 16 })
+    else setParams({ rows: 14, cols: 22 })
+
+    // Defer enabling to idle so it never blocks paint
+    const enable = () => setEnabled(true)
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(enable, { timeout: 1500 })
+    } else {
+      setTimeout(enable, 600)
+    }
+  }, [])
+
+  if (!enabled) return null
+  return (
+    <div className="absolute inset-0">
+      <HexagonField rows={params.rows} cols={params.cols} />
+    </div>
   )
 }
 

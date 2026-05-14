@@ -39,6 +39,7 @@ export default function Manifesto() {
   return (
     <section
       ref={sectionRef}
+      id="about"
       className="px-6 md:px-12 pt-4 pb-14 md:pt-6 md:pb-20"
       style={{ backgroundColor: 'transparent' }}
     >

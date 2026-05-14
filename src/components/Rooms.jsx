@@ -41,9 +41,11 @@ export default function Rooms() {
         }
       )
 
-      // Skip stacking on mobile/touch — simple stacked scroll
-      const isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches
-      if (isTouch) return
+      // Only run the pin-and-stack interaction on desktop with a mouse
+      const isDesktop =
+        window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
+        window.innerWidth >= 1024
+      if (!isDesktop) return
 
       const cards = cardsRef.current.filter(Boolean)
       const total = cards.length
@@ -139,21 +141,26 @@ export default function Rooms() {
           </div>
         </div>
 
-        {/* Two-column: stack on left, sticky phone on right */}
+        {/* Two-column: stack on left, sticky phone on right (desktop only stacking) */}
         <div
           ref={stackRef}
-          className="grid grid-cols-1 lg:grid-cols-[1.15fr_1fr] gap-10 lg:gap-16 min-h-screen items-start"
+          className="grid grid-cols-1 lg:grid-cols-[1.15fr_1fr] gap-10 lg:gap-16 items-start"
         >
-          {/* Left: stack column */}
-          <div
-            className="relative"
-            style={{ height: 'clamp(440px, 60vh, 560px)' }}
-          >
+          {/* Left: stack column. On mobile/tablet, cards flow naturally; on desktop, they pin & stack. */}
+          <div className="rooms-stack-col">
+            <style>{`
+              .rooms-stack-col { display: flex; flex-direction: column; gap: 20px; }
+              .rooms-stack-col > .room-card { position: relative; }
+              @media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+                .rooms-stack-col { display: block; position: relative; height: clamp(480px, 62vh, 580px); }
+                .rooms-stack-col > .room-card { position: absolute; inset: 0; }
+              }
+            `}</style>
             {rooms.map((room, i) => (
               <div
                 key={room.id}
                 ref={(el) => (cardsRef.current[i] = el)}
-                className="fk-card absolute inset-0 overflow-hidden flex flex-col sm:flex-row"
+                className="room-card fk-card overflow-hidden flex flex-col sm:flex-row"
                 style={{
                   willChange: 'transform, opacity',
                   zIndex: i + 1,
@@ -283,6 +290,7 @@ export default function Rooms() {
                   src={rooms[0]?.image || '/images/suite-mansion/1.jpeg'}
                   alt="Room preview"
                   className="w-full h-full object-cover"
+                  loading="lazy"
                 />
               </div>
               {/* notch */}

@@ -3,8 +3,9 @@ import { Home } from 'lucide-react'
 const ITEMS = [
   { label: 'Rooms', href: '#rooms' },
   { label: 'About', href: '#about' },
-  { label: 'Experiences ›', href: '#recreation' },
+  { label: 'Awards', href: '#awards' },
   { label: 'Reviews', href: '#reviews' },
+  { label: 'FAQ', href: '#faq' },
 ]
 
 export default function BottomNav() {
@@ -41,7 +42,7 @@ export default function BottomNav() {
             key={it.href}
             href={it.href}
             onClick={go(it.href)}
-            className="hidden sm:inline-flex items-center px-3.5 h-10 rounded-full font-body text-[13px] text-white/80 hover:text-white hover:bg-white/10 transition"
+            className="hidden md:inline-flex items-center px-3 h-10 rounded-full font-body text-[13px] text-white/80 hover:text-white hover:bg-white/10 transition whitespace-nowrap"
           >
             {it.label}
           </a>

@@ -92,7 +92,7 @@ export default function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen flex items-center overflow-hidden"
+      className="relative min-h-[88vh] flex items-center overflow-hidden"
       id="home"
     >
       {/* Hexagon honeycomb 3D background */}
@@ -109,7 +109,7 @@ export default function Hero() {
         }}
       />
 
-      <div className="relative w-full max-w-[1600px] mx-auto px-6 md:px-12 py-32 grid grid-cols-12 items-center gap-6">
+      <div className="relative w-full max-w-[1600px] mx-auto px-6 md:px-12 py-16 md:py-20 grid grid-cols-12 items-center gap-6">
         {/* LEFT — FAMILY */}
         <div className="col-span-12 md:col-span-4 text-center md:text-left order-2 md:order-1">
           <p

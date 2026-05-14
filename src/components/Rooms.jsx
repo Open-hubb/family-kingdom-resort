@@ -115,7 +115,7 @@ export default function Rooms() {
     <section
       ref={sectionRef}
       id="rooms"
-      className="relative px-6 md:px-12 py-24 md:py-32"
+      className="relative px-6 md:px-12 pt-12 md:pt-20 pb-24 md:pb-32"
     >
       <div className="max-w-[1500px] mx-auto">
         {/* Heading row */}

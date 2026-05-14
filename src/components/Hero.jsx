@@ -47,10 +47,10 @@ export default function Hero() {
           '-=0.4'
         )
 
-      // Scroll-out parallax
+      // Gentle parallax on the portrait only — no opacity fade on the wordmark
       gsap.to(portraitRef.current, {
         rotateY: -8,
-        yPercent: -10,
+        yPercent: -8,
         ease: 'none',
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -59,22 +59,11 @@ export default function Hero() {
           scrub: true,
         },
       })
-      gsap.to([leftWordRef.current, rightWordRef.current], {
-        opacity: 0.3,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top top',
-          end: 'bottom 60%',
-          scrub: true,
-        },
-      })
     }, sectionRef)
 
     return () => ctx.revert()
   }, [])
 
-  // Portrait 3D tilt on mouse move
   const handlePortraitMove = (e) => {
     const el = portraitRef.current
     if (!el) return
@@ -85,15 +74,25 @@ export default function Hero() {
   }
   const handlePortraitLeave = () => {
     if (portraitRef.current) {
-      portraitRef.current.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg) scale(1)'
+      portraitRef.current.style.transform =
+        'perspective(1200px) rotateX(0deg) rotateY(0deg) scale(1)'
     }
+  }
+
+  const wordStyle = {
+    color: 'var(--color-ink)',
+    opacity: 0,
+    fontSize: 'clamp(48px, 9vw, 124px)',
+    letterSpacing: '-0.05em',
+    lineHeight: 0.85,
   }
 
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-[88vh] flex items-center overflow-hidden"
+      className="relative flex items-center overflow-hidden"
       id="home"
+      style={{ minHeight: 'min(820px, 78vh)' }}
     >
       {/* Hexagon honeycomb 3D background */}
       <div className="absolute inset-0">
@@ -109,21 +108,13 @@ export default function Hero() {
         }}
       />
 
-      <div className="relative w-full max-w-[1600px] mx-auto px-6 md:px-12 py-16 md:py-20 grid grid-cols-12 items-center gap-6">
+      <div className="relative w-full max-w-[1600px] mx-auto px-4 md:px-10 py-10 md:py-14 grid grid-cols-12 items-center gap-3 md:gap-6">
         {/* LEFT — FAMILY */}
         <div className="col-span-12 md:col-span-4 text-center md:text-left order-2 md:order-1">
-          <p
-            ref={leftEyebrowRef}
-            className="eyebrow mb-4 md:mb-6"
-            style={{ opacity: 0 }}
-          >
+          <p ref={leftEyebrowRef} className="eyebrow mb-3 md:mb-5" style={{ opacity: 0 }}>
             Seaside Resort &amp; Beachfront Estate
           </p>
-          <h1
-            ref={leftWordRef}
-            className="font-display text-[68px] sm:text-[96px] md:text-[120px] lg:text-[140px] font-extrabold leading-[0.85] tracking-[-0.04em]"
-            style={{ color: 'var(--color-ink)', opacity: 0 }}
-          >
+          <h1 ref={leftWordRef} className="font-display font-extrabold" style={wordStyle}>
             FAMILY
           </h1>
         </div>
@@ -136,7 +127,7 @@ export default function Hero() {
             onMouseLeave={handlePortraitLeave}
             className="fk-card overflow-hidden"
             style={{
-              width: 'min(78vw, 320px)',
+              width: 'min(70vw, 280px)',
               aspectRatio: '3 / 4',
               opacity: 0,
               transition: 'transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)',
@@ -156,21 +147,17 @@ export default function Hero() {
         <div className="col-span-12 md:col-span-4 text-center md:text-right order-3">
           <p
             ref={rightEyebrowRef}
-            className="eyebrow mb-4 md:mb-6 md:justify-end"
+            className="eyebrow mb-3 md:mb-5 md:justify-end"
             style={{ opacity: 0 }}
           >
             Hospitality since 1994
           </p>
-          <h1
-            ref={rightWordRef}
-            className="font-display text-[68px] sm:text-[96px] md:text-[120px] lg:text-[140px] font-extrabold leading-[0.85] tracking-[-0.04em]"
-            style={{ color: 'var(--color-ink)', opacity: 0 }}
-          >
+          <h1 ref={rightWordRef} className="font-display font-extrabold" style={wordStyle}>
             KINGDOM
           </h1>
           <p
             ref={subtitleRef}
-            className="font-body text-[13px] mt-6 md:mt-8"
+            className="font-body text-[13px] mt-5 md:mt-7"
             style={{ color: 'var(--color-ink-soft)', opacity: 0 }}
           >
             Aberdeen, Freetown &middot; <span className="tabular-nums">{now}</span>

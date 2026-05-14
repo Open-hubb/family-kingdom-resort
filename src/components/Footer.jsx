@@ -85,10 +85,18 @@ export default function Footer() {
         style={{ borderColor: 'var(--color-border)' }}
       >
         <p className="font-body text-[12px]" style={{ color: 'var(--color-ink-faint)' }}>
-          © {new Date().getFullYear()}
+          © {new Date().getFullYear()} All rights reserved.
         </p>
         <p className="font-body text-[12px]" style={{ color: 'var(--color-ink-faint)' }}>
-          All rights reserved.
+          Built and powered by{' '}
+          <a
+            href="https://www.flotme.ai/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: 'var(--color-ink)', textDecoration: 'underline', textUnderlineOffset: '3px' }}
+          >
+            Flot
+          </a>
         </p>
       </div>
     </footer>

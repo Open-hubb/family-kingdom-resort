@@ -41,7 +41,7 @@ export default function Manifesto() {
   return (
     <section
       ref={sectionRef}
-      className="px-6 md:px-12 pt-6 md:pt-12 pb-20 md:pb-28"
+      className="px-6 md:px-12 pt-0 pb-16 md:pb-24"
       style={{ backgroundColor: 'transparent' }}
     >
       <div className="max-w-[1200px] mx-auto">

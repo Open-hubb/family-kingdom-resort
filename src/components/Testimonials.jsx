@@ -62,19 +62,21 @@ export default function Testimonials() {
         { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out',
           scrollTrigger: { trigger: sectionRef.current, start: 'top 78%' } }
       )
-      gsap.fromTo(
-        cardsRef.current.filter(Boolean),
-        { y: 40, opacity: 0, filter: 'blur(8px)' },
-        {
-          y: 0,
-          opacity: 1,
-          filter: 'blur(0px)',
-          duration: 0.8,
-          ease: 'power3.out',
-          stagger: 0.08,
-          scrollTrigger: { trigger: cardsRef.current[0], start: 'top 85%' },
-        }
-      )
+      // Reveal the whole marquee track once it enters view
+      if (cardsRef.current[0]) {
+        gsap.fromTo(
+          cardsRef.current[0].parentElement.parentElement,
+          { opacity: 0, y: 30, filter: 'blur(6px)' },
+          {
+            opacity: 1,
+            y: 0,
+            filter: 'blur(0px)',
+            duration: 0.9,
+            ease: 'power3.out',
+            scrollTrigger: { trigger: cardsRef.current[0], start: 'top 90%' },
+          }
+        )
+      }
     }, sectionRef)
     return () => ctx.revert()
   }, [])
@@ -99,44 +101,74 @@ export default function Testimonials() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-          {REVIEWS.map((r, i) => (
-            <div
-              key={i}
-              ref={(el) => (cardsRef.current[i] = el)}
-              className="fk-card p-7 md:p-8 flex flex-col h-full"
-              style={{ willChange: 'transform, opacity, filter' }}
-            >
-              <div className="flex gap-0.5 mb-5">
-                {[0, 1, 2, 3, 4].map((s) => (
-                  <Star
-                    key={s}
-                    size={16}
-                    fill="var(--color-accent)"
-                    strokeWidth={0}
-                    style={{ color: 'var(--color-accent)' }}
-                  />
-                ))}
-              </div>
-              <p
-                className="font-body text-[15px] md:text-[16px] leading-[1.7] mb-6 flex-1"
-                style={{ color: 'var(--color-ink)' }}
+        <div className="reviews-marquee-wrap overflow-hidden relative" style={{ willChange: 'opacity, transform, filter' }}>
+          {/* edge gradient masks */}
+          <div className="absolute left-0 top-0 bottom-0 w-12 md:w-24 z-10 pointer-events-none"
+            style={{ background: 'linear-gradient(to right, var(--color-bg), transparent)' }} />
+          <div className="absolute right-0 top-0 bottom-0 w-12 md:w-24 z-10 pointer-events-none"
+            style={{ background: 'linear-gradient(to left, var(--color-bg), transparent)' }} />
+
+          <div
+            className="reviews-marquee flex gap-5 md:gap-6"
+            style={{ width: 'max-content' }}
+          >
+            {[...REVIEWS, ...REVIEWS].map((r, i) => (
+              <div
+                key={i}
+                ref={(el) => i < REVIEWS.length && (cardsRef.current[i] = el)}
+                className="fk-card p-7 md:p-8 flex flex-col flex-shrink-0"
+                style={{
+                  width: 'min(85vw, 380px)',
+                  willChange: 'transform',
+                }}
               >
-                &ldquo;{r.text}&rdquo;
-              </p>
-              <div className="pt-5 border-t" style={{ borderColor: 'var(--color-border)' }}>
-                <p className="font-body text-[14px] font-medium" style={{ color: 'var(--color-ink)' }}>
-                  {r.author}
-                </p>
+                <div className="flex gap-0.5 mb-5">
+                  {[0, 1, 2, 3, 4].map((s) => (
+                    <Star
+                      key={s}
+                      size={16}
+                      fill="var(--color-accent)"
+                      strokeWidth={0}
+                      style={{ color: 'var(--color-accent)' }}
+                    />
+                  ))}
+                </div>
                 <p
-                  className="font-body text-[12px] mt-0.5"
-                  style={{ color: 'var(--color-ink-faint)' }}
+                  className="font-body text-[15px] md:text-[16px] leading-[1.7] mb-6 flex-1"
+                  style={{ color: 'var(--color-ink)' }}
                 >
-                  {r.role} &middot; {r.month}
+                  &ldquo;{r.text}&rdquo;
                 </p>
+                <div className="pt-5 border-t" style={{ borderColor: 'var(--color-border)' }}>
+                  <p className="font-body text-[14px] font-medium" style={{ color: 'var(--color-ink)' }}>
+                    {r.author}
+                  </p>
+                  <p
+                    className="font-body text-[12px] mt-0.5"
+                    style={{ color: 'var(--color-ink-faint)' }}
+                  >
+                    {r.role} &middot; {r.month}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+
+          <style>{`
+            @keyframes reviewsMarquee {
+              from { transform: translateX(0); }
+              to { transform: translateX(-50%); }
+            }
+            .reviews-marquee {
+              animation: reviewsMarquee 55s linear infinite;
+            }
+            .reviews-marquee-wrap:hover .reviews-marquee {
+              animation-play-state: paused;
+            }
+            @media (prefers-reduced-motion: reduce) {
+              .reviews-marquee { animation: none; }
+            }
+          `}</style>
         </div>
       </div>
     </section>

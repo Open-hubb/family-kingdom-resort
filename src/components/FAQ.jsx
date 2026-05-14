@@ -22,7 +22,21 @@ const FAQS = [
   },
   {
     q: 'What payment methods do you accept?',
-    a: 'We accept major credit cards, mobile money (Orange Money and Africell Money), and bank transfers. A 30% deposit secures your booking; the balance is due on arrival.',
+    a: null, // rendered as JSX below
+    aJsx: (
+      <>
+        We accept Visa, Mastercard and mobile money (Orange Money and Afrimoney), powered by{' '}
+        <a
+          href="https://www.flotme.ai/"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: 'var(--color-accent)', textDecoration: 'underline', textUnderlineOffset: '3px' }}
+        >
+          Flot
+        </a>
+        .
+      </>
+    ),
   },
   {
     q: 'Can I host an event or wedding here?',
@@ -119,7 +133,7 @@ export default function FAQ() {
             <Item
               key={i}
               q={item.q}
-              a={item.a}
+              a={item.aJsx ?? item.a}
               isOpen={openIdx === i}
               onToggle={() => setOpenIdx(openIdx === i ? -1 : i)}
             />

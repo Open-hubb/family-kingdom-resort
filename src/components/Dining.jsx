@@ -61,7 +61,7 @@ export default function Dining() {
       ref={sectionRef}
       id="dining"
       className="py-28 md:py-40 px-6 md:px-10"
-      style={{ backgroundColor: 'var(--color-cream)' }}
+      style={{ backgroundColor: 'transparent' }}
     >
       <div className="max-w-[1400px] mx-auto">
         <div className="mb-16 md:mb-20">

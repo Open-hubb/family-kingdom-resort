@@ -41,7 +41,7 @@ export default function Rooms() {
       ref={sectionRef}
       id="rooms"
       className="py-28 md:py-40"
-      style={{ backgroundColor: 'var(--color-offwhite)' }}
+      style={{ backgroundColor: 'transparent' }}
     >
       <div className="max-w-[1400px] mx-auto px-6 md:px-10 mb-12 md:mb-16">
         <div className="flex items-center gap-4 mb-10">

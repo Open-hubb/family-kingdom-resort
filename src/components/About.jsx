@@ -52,7 +52,7 @@ export default function About() {
       ref={sectionRef}
       id="about"
       className="py-28 md:py-40 px-6 md:px-10"
-      style={{ backgroundColor: 'var(--color-offwhite)' }}
+      style={{ backgroundColor: 'transparent' }}
     >
       <div className="max-w-[1400px] mx-auto">
         <div className="flex items-center gap-4 mb-12 md:mb-16">

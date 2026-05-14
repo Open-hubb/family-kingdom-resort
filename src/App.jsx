@@ -17,6 +17,7 @@ import Preloader from './components/Preloader'
 import BookingModal from './components/BookingModal'
 import Marquee from './components/Marquee'
 import CustomCursor from './components/CustomCursor'
+import SpaceBackground from './components/SpaceBackground'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -26,8 +27,11 @@ export default function App() {
 
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.6,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      lerp: 0.08,
+      smoothWheel: true,
+      wheelMultiplier: 1.0,
       touchMultiplier: 2,
       infinite: false,
     })
@@ -59,6 +63,8 @@ export default function App() {
       <div className="grain">
         {!isLoaded && <Preloader onComplete={handlePreloaderComplete} />}
         <CustomCursor />
+        <SpaceBackground />
+        <div style={{ position: 'relative', zIndex: 2 }}>
         <Navbar />
         <main>
           <Hero />
@@ -72,6 +78,7 @@ export default function App() {
           <Contact />
         </main>
         <Footer />
+        </div>
         <BookingModal />
       </div>
     </BookingProvider>

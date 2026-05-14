@@ -13,9 +13,9 @@ export default function Marquee() {
     <section
       className="relative py-10 md:py-14 overflow-hidden"
       style={{
-        backgroundColor: 'var(--color-dark)',
-        borderTop: '1px solid rgba(200, 169, 110, 0.15)',
-        borderBottom: '1px solid rgba(200, 169, 110, 0.15)',
+        backgroundColor: 'rgba(14, 13, 11, 0.92)',
+        backdropFilter: 'blur(8px)',
+        WebkitBackdropFilter: 'blur(8px)',
       }}
     >
       <div className="flex whitespace-nowrap marquee-track">

@@ -778,41 +778,49 @@ export default function BookingModal() {
   const showSteps = step !== 'confirmed'
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-start justify-center">
+    <div className="fixed inset-0 z-[100]" style={{ height: '100dvh' }}>
       <div
         ref={overlayRef}
         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
         onClick={close}
       />
       <div
-        ref={contentRef}
-        className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto mx-4 mt-[5vh] rounded-2xl p-6 md:p-8"
-        style={{
-          backgroundColor: 'var(--color-offwhite)',
-          boxShadow: '0 25px 80px rgba(12,35,64,0.25)',
-        }}
+        className="absolute inset-0 overflow-y-auto overscroll-contain"
+        style={{ WebkitOverflowScrolling: 'touch' }}
       >
-        <button
-          onClick={close}
-          className="absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center cursor-pointer transition-colors hover:bg-black/5"
-          style={{ color: 'var(--color-dark)' }}
-        >
-          <X size={20} />
-        </button>
+        <div className="min-h-full flex items-start sm:items-center justify-center p-3 sm:p-6">
+          <div
+            ref={contentRef}
+            className="relative w-full max-w-3xl rounded-2xl p-5 sm:p-7 md:p-8 my-2 sm:my-6"
+            style={{
+              backgroundColor: 'var(--color-offwhite)',
+              boxShadow: '0 25px 80px rgba(12,35,64,0.25)',
+            }}
+          >
+            <button
+              onClick={close}
+              aria-label="Close booking"
+              className="sticky top-0 ml-auto mb-2 w-9 h-9 rounded-full flex items-center justify-center cursor-pointer transition-colors hover:bg-black/5 z-10"
+              style={{ color: 'var(--color-dark)', backgroundColor: 'rgba(236,236,236,0.7)' }}
+            >
+              <X size={20} />
+            </button>
 
-        {showSteps && (
-          <StepIndicator
-            current={stepIndex[step] || 0}
-            steps={['Room', 'Dates', 'Details', 'Review', 'Payment']}
-          />
-        )}
+            {showSteps && (
+              <StepIndicator
+                current={stepIndex[step] || 0}
+                steps={['Room', 'Dates', 'Details', 'Review', 'Payment']}
+              />
+            )}
 
-        {step === 'room' && <RoomDetailStep />}
-        {step === 'dates' && <DateStep />}
-        {step === 'guests' && <GuestInfoStep />}
-        {step === 'summary' && <SummaryStep />}
-        {step === 'payment' && <PaymentStep />}
-        {step === 'confirmed' && <ConfirmedStep />}
+            {step === 'room' && <RoomDetailStep />}
+            {step === 'dates' && <DateStep />}
+            {step === 'guests' && <GuestInfoStep />}
+            {step === 'summary' && <SummaryStep />}
+            {step === 'payment' && <PaymentStep />}
+            {step === 'confirmed' && <ConfirmedStep />}
+          </div>
+        </div>
       </div>
     </div>
   )

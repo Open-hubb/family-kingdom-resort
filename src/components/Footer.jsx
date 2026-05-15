@@ -3,8 +3,6 @@ import { Mail, Phone } from 'lucide-react'
 const MARQUEE_PHRASE = "Come stay with us"
 
 export default function Footer() {
-  const items = Array.from({ length: 8 }).map((_, i) => i)
-
   return (
     <footer id="contact" className="relative pt-24 md:pt-32 pb-8 overflow-hidden">
       {/* Giant outlined wordmark */}
@@ -25,29 +23,21 @@ export default function Footer() {
         </h2>
       </div>
 
-      {/* Marquee strip */}
-      <div className="my-12 md:my-16 overflow-hidden">
-        <div
-          className="flex whitespace-nowrap marquee-x items-center gap-12 md:gap-16"
-          style={{ width: 'max-content' }}
+      {/* Static centred call-to-action */}
+      <div className="my-10 md:my-14 text-center px-6">
+        <span
+          className="font-display font-extrabold tracking-[-0.03em] inline-flex items-center gap-4 md:gap-6"
+          style={{
+            color: 'var(--color-ink)',
+            fontSize: 'clamp(32px, 5.5vw, 64px)',
+            lineHeight: 1,
+          }}
         >
-          {items.map((i) => (
-            <span
-              key={i}
-              className="font-display font-extrabold tracking-[-0.03em] inline-flex items-center gap-10 md:gap-14"
-              style={{
-                color: 'var(--color-ink)',
-                fontSize: 'clamp(48px, 8vw, 96px)',
-                lineHeight: 1,
-              }}
-            >
-              {MARQUEE_PHRASE}
-              <span style={{ color: 'var(--color-accent)', fontWeight: 800 }} aria-hidden="true">
-                ✱
-              </span>
-            </span>
-          ))}
-        </div>
+          {MARQUEE_PHRASE}
+          <span style={{ color: 'var(--color-accent)', fontWeight: 800 }} aria-hidden="true">
+            ✱
+          </span>
+        </span>
       </div>
 
       {/* Contact lines */}

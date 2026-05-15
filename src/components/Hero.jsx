@@ -73,7 +73,7 @@ export default function Hero() {
       />
 
       <div className="relative w-full max-w-[1600px] mx-auto px-4 md:px-10 py-10 md:py-14 grid grid-cols-12 items-center gap-3 md:gap-6">
-        <div className="col-span-12 md:col-span-4 text-center md:text-right md:pr-6 lg:pr-10 order-2 md:order-1">
+        <div className="col-span-12 md:col-span-5 text-center md:text-right order-2 md:order-1">
           <p ref={leftEyebrowRef} className="eyebrow mb-3 md:mb-5 md:justify-end" style={{ opacity: 0 }}>
             Seaside Resort &amp; Beachfront Estate
           </p>
@@ -82,7 +82,7 @@ export default function Hero() {
           </h1>
         </div>
 
-        <div className="col-span-12 md:col-span-4 flex justify-center order-1 md:order-2">
+        <div className="col-span-12 md:col-span-2 flex justify-center order-1 md:order-2">
           <div
             ref={portraitRef}
             className="fk-card overflow-hidden"
@@ -100,7 +100,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="col-span-12 md:col-span-4 text-center md:text-left md:pl-6 lg:pl-10 order-3">
+        <div className="col-span-12 md:col-span-5 text-center md:text-left order-3">
           <p
             ref={rightEyebrowRef}
             className="eyebrow mb-3 md:mb-5"

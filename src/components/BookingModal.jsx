@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { X, ChevronLeft, ChevronRight, Users, Bed, Maximize, Star, Calendar, CreditCard, Clock, Check, Shield, ArrowRight } from 'lucide-react'
 import gsap from 'gsap'
 import { useBooking } from '../context/BookingContext'
+import FlotCheckout from './FlotCheckout'
 
 function StepIndicator({ current, steps }) {
   return (
@@ -536,13 +537,22 @@ function SummaryStep() {
 function PaymentStep() {
   const { selectedRoom, getTotalPrice, getDepositAmount, getNights, depositPercentage, setPayment, confirmBooking, setStep, paymentOption } = useBooking()
   const [selected, setSelected] = useState(paymentOption)
+  const [checkoutOpen, setCheckoutOpen] = useState(false)
   const total = getTotalPrice()
   const deposit = getDepositAmount()
   const nights = getNights()
 
+  // Amount that will be charged at the Flot checkout
+  const chargeAmount = selected === 'later' ? deposit : total
+
   const handleConfirm = () => {
     if (!selected) return
     setPayment(selected)
+    setCheckoutOpen(true)
+  }
+
+  const handleCheckoutComplete = () => {
+    setCheckoutOpen(false)
     confirmBooking()
   }
 
@@ -651,12 +661,20 @@ function PaymentStep() {
           onClick={handleConfirm}
           disabled={!selected}
           className="flex-1 font-body text-sm tracking-[0.1em] uppercase py-3.5 rounded-full cursor-pointer transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
-          style={{ backgroundColor: 'var(--color-accent)', color: 'var(--color-dark)' }}
+          style={{ backgroundColor: 'var(--color-accent)', color: 'white' }}
         >
           {selected === 'now' ? `Pay $${total} Now` : selected === 'later' ? `Pay $${deposit} Deposit` : 'Select an Option'}
           <ArrowRight size={16} />
         </button>
       </div>
+
+      {checkoutOpen && (
+        <FlotCheckout
+          amount={chargeAmount}
+          onComplete={handleCheckoutComplete}
+          onClose={() => setCheckoutOpen(false)}
+        />
+      )}
     </div>
   )
 }

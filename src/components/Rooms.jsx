@@ -10,6 +10,9 @@ export default function Rooms() {
   const cardsRef = useRef([])
   const { rooms, selectRoom } = useBooking()
 
+  // Display most expensive → least expensive
+  const sortedRooms = [...rooms].sort((a, b) => b.price - a.price)
+
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
@@ -76,7 +79,7 @@ export default function Rooms() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-          {rooms.map((room, i) => (
+          {sortedRooms.map((room, i) => (
             <div
               key={room.id}
               ref={(el) => (cardsRef.current[i] = el)}

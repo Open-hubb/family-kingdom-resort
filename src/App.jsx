@@ -14,6 +14,7 @@ import Preloader from './components/Preloader'
 import BookingModal from './components/BookingModal'
 import BottomNav from './components/BottomNav'
 import BackToTop from './components/BackToTop'
+import SiteLogo from './components/SiteLogo'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -78,6 +79,7 @@ export default function App() {
         </main>
         <Footer />
 
+        <SiteLogo />
         <BottomNav />
         <BackToTop />
         <BookingModal />

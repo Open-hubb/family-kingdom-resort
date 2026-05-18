@@ -1,39 +1,19 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { X, ShieldCheck } from 'lucide-react'
 
 const FLOT_BASE = 'https://pay.flotme.ai/familykingdom'
-const FLOT_ORIGIN = 'https://pay.flotme.ai'
 
 /**
  * Flot hosted checkout, shown as an in-page popup with the pay page embedded.
- * - onComplete: payment finished successfully
+ * The guest completes payment inside the Flot iframe, then taps
+ * "I've completed payment" to advance the booking.
+ * - onComplete: guest confirms payment is done
  * - onClose: popup dismissed without completing
  */
 export default function FlotCheckout({ amount, onComplete, onClose }) {
   const [loading, setLoading] = useState(true)
-  const completedRef = useRef(false)
 
   const src = amount ? `${FLOT_BASE}?amount=${encodeURIComponent(amount)}` : FLOT_BASE
-
-  // Listen for a success signal from the Flot checkout (best-effort).
-  useEffect(() => {
-    const onMessage = (e) => {
-      if (e.origin !== FLOT_ORIGIN) return
-      const d = e.data
-      const text = typeof d === 'string' ? d.toLowerCase() : ''
-      const status =
-        (d && typeof d === 'object' && (d.status || d.event || d.type)) || ''
-      const isSuccess =
-        /success|complete|completed|paid|approved/.test(text) ||
-        /success|complete|completed|paid|approved/.test(String(status).toLowerCase())
-      if (isSuccess && !completedRef.current) {
-        completedRef.current = true
-        onComplete()
-      }
-    }
-    window.addEventListener('message', onMessage)
-    return () => window.removeEventListener('message', onMessage)
-  }, [onComplete])
 
   // Lock background scroll while the popup is open
   useEffect(() => {

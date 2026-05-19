@@ -1,5 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, lazy, Suspense } from 'react'
 import gsap from 'gsap'
+
+const HexagonField = lazy(() => import('./HexagonField'))
 
 export default function Preloader({ onComplete }) {
   const containerRef = useRef(null)
@@ -52,12 +54,29 @@ export default function Preloader({ onComplete }) {
       className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden"
       style={{ backgroundColor: 'var(--color-bg)' }}
     >
+      {/* Honeycomb 3D background animation */}
+      <Suspense fallback={null}>
+        <div className="absolute inset-0">
+          <HexagonField rows={12} cols={18} />
+        </div>
+      </Suspense>
+
+      {/* Radial vignette to keep the centre clean for the logo */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            'radial-gradient(ellipse 46% 40% at center, rgba(236,236,236,0.78) 0%, rgba(236,236,236,0) 72%)',
+        }}
+      />
+
       {!logoFailed ? (
         <img
           ref={logoRef}
           src="/logo.png"
           alt="The Family Kingdom Resort"
           onError={() => setLogoFailed(true)}
+          className="relative"
           style={{
             width: 'min(62vw, 320px)',
             height: 'auto',
@@ -66,7 +85,7 @@ export default function Preloader({ onComplete }) {
           }}
         />
       ) : (
-        <div ref={fallbackRef} className="text-center px-6" style={{ opacity: 0 }}>
+        <div ref={fallbackRef} className="relative text-center px-6" style={{ opacity: 0 }}>
           <h1
             className="font-display font-extrabold tracking-[-0.04em]"
             style={{

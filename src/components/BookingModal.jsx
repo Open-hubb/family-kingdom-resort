@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { X, ChevronLeft, ChevronRight, Users, Bed, Maximize, Star, Calendar, CreditCard, Clock, Check, Shield, ArrowRight } from 'lucide-react'
+import { X, ChevronLeft, ChevronRight, Users, Bed, Maximize, Star, Calendar, CreditCard, Clock, Check, Shield, ArrowRight, Info } from 'lucide-react'
 import gsap from 'gsap'
 import { useBooking } from '../context/BookingContext'
 import FlotCheckout from './FlotCheckout'
@@ -647,6 +647,32 @@ function PaymentStep() {
             </div>
           </div>
         </button>
+      </div>
+
+      {/* Currency notice for the Flot checkout */}
+      <div
+        className="rounded-xl p-4 mb-6 flex gap-3"
+        style={{
+          backgroundColor: 'rgba(242,107,31,0.07)',
+          border: '1px solid rgba(242,107,31,0.22)',
+        }}
+      >
+        <Info size={18} className="flex-shrink-0 mt-0.5" style={{ color: 'var(--color-accent-dark)' }} />
+        <div>
+          <p className="font-body text-[13px] font-semibold mb-1" style={{ color: 'var(--color-dark)' }}>
+            Before you continue
+          </p>
+          <p
+            className="font-body text-[12.5px] leading-relaxed"
+            style={{ color: 'var(--color-dark)', opacity: 0.7 }}
+          >
+            The secure checkout opens in Sierra Leonean Leones (SLE). To pay in US Dollars,
+            select <strong>Bank Card</strong> and switch the currency from{' '}
+            <strong>SLE to USD</strong>. Prefer to pay in Leones? Today&rsquo;s rate is{' '}
+            <strong>$1 = Le 24</strong> — your ${chargeAmount} total is about{' '}
+            <strong>Le {(chargeAmount * 24).toLocaleString()}</strong>.
+          </p>
+        </div>
       </div>
 
       <div className="flex gap-3">

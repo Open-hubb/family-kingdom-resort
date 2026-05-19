@@ -86,6 +86,20 @@ export default function FlotCheckout({ amount, onComplete, onClose }) {
           </button>
         </div>
 
+        {/* currency reminder */}
+        <div
+          className="px-4 py-2.5 flex-shrink-0 font-body text-[11.5px] leading-snug"
+          style={{
+            backgroundColor: 'rgba(242,107,31,0.09)',
+            color: 'var(--color-ink)',
+            borderBottom: '1px solid rgba(242,107,31,0.18)',
+          }}
+        >
+          To pay in <strong>USD</strong>, choose <strong>Bank Card</strong> and switch
+          the currency from <strong>SLE</strong> to <strong>USD</strong>. Paying in
+          Leones? Rate is <strong>$1 = Le 24</strong>.
+        </div>
+
         {/* iframe */}
         <div className="relative flex-1 min-h-0">
           {loading && (

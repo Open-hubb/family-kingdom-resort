@@ -83,6 +83,7 @@ export default function Hero() {
           src="/images/IMG_6912.jpg"
           alt="Sunset on the Freetown seafront"
           className="w-full h-full object-cover"
+          style={{ filter: 'brightness(0.62)' }}
         />
       </div>
 

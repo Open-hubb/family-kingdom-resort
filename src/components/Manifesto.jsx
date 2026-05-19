@@ -45,7 +45,7 @@ export default function Manifesto() {
     >
       <div className="max-w-[1200px] mx-auto">
         <h2
-          className="font-display font-extrabold tracking-[-0.04em] leading-[1.05]"
+          className="font-display font-extrabold tracking-[-0.04em] leading-[1.05] text-center"
           style={{
             color: 'var(--color-ink)',
             fontSize: 'clamp(32px, 5.5vw, 64px)',

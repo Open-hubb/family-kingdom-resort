@@ -42,30 +42,36 @@ export default function Footer() {
 
       {/* Contact lines */}
       <div className="max-w-[900px] mx-auto px-6 text-center">
-        <div className="flex flex-col sm:flex-row gap-3 sm:gap-10 items-center justify-center mb-10">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-10 items-center justify-center mb-6">
           <a
-            href="mailto:info@familykingdomresort.com"
+            href="mailto:fkresort@gmail.com"
             className="inline-flex items-center gap-2.5 font-body text-[15px] md:text-[16px] hover:opacity-70 transition"
             style={{ color: 'var(--color-ink)' }}
           >
             <Mail size={16} strokeWidth={1.75} />
-            info@familykingdomresort.com
+            fkresort@gmail.com
           </a>
-          <a
-            href="tel:+23276601007"
-            className="inline-flex items-center gap-2.5 font-body text-[15px] md:text-[16px] hover:opacity-70 transition"
-            style={{ color: 'var(--color-ink)' }}
-          >
-            <Phone size={16} strokeWidth={1.75} />
-            +232 76 601007
-          </a>
+        </div>
+
+        <div className="flex flex-wrap gap-x-6 gap-y-2 items-center justify-center mb-10">
+          {['+23276777949', '+23277850466', '+23230202770'].map((num) => (
+            <a
+              key={num}
+              href={`tel:${num}`}
+              className="inline-flex items-center gap-2 font-body text-[14px] md:text-[15px] hover:opacity-70 transition"
+              style={{ color: 'var(--color-ink)' }}
+            >
+              <Phone size={15} strokeWidth={1.75} />
+              {num}
+            </a>
+          ))}
         </div>
 
         <p className="font-body text-[13px] mb-1" style={{ color: 'var(--color-ink-soft)' }}>
           78 Cape Road, Aberdeen, Freetown, Sierra Leone
         </p>
         <p className="font-script text-[18px]" style={{ color: 'var(--color-ink-soft)' }}>
-          24-hour reception &middot; complimentary airport transfer
+          24-hour reception
         </p>
       </div>
 

@@ -7,14 +7,13 @@ export default function Footer() {
     <footer id="contact" className="relative pt-24 md:pt-32 pb-8 overflow-hidden">
       {/* Giant outlined wordmark */}
       <div
-        className="relative w-full flex justify-center pointer-events-none select-none"
+        className="relative w-full flex justify-center pointer-events-none select-none px-4"
         aria-hidden="true"
-        style={{ overflow: 'hidden' }}
       >
         <h2
           className="outline-text whitespace-nowrap"
           style={{
-            fontSize: 'clamp(120px, 22vw, 280px)',
+            fontSize: 'clamp(28px, 10.5vw, 220px)',
             lineHeight: 0.85,
             opacity: 0.22,
           }}

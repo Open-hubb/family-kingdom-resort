@@ -96,41 +96,49 @@ export default function Hero() {
         }}
       />
 
-      <div className="relative w-full max-w-[1600px] mx-auto px-4 md:px-10 py-14 grid grid-cols-12 items-center gap-2 md:gap-3">
-        {/* LEFT — FAMILY */}
-        <div className="col-span-12 md:col-span-6 text-center md:text-right order-2 md:order-1">
-          <p
-            ref={leftEyebrowRef}
-            className="eyebrow eyebrow-on-photo mb-3 md:mb-5 md:justify-end"
-            style={{ opacity: 0 }}
-          >
-            Seaside Resort &amp; Beachfront Estate
-          </p>
-          <h1 ref={leftWordRef} className="font-display font-extrabold" style={wordStyle}>
-            FAMILY
-          </h1>
-        </div>
+      <div className="relative w-full max-w-[1500px] mx-auto px-5 md:px-10 py-16 flex flex-col items-center text-center">
+        {/* Top eyebrow */}
+        <p
+          ref={leftEyebrowRef}
+          className="eyebrow eyebrow-on-photo mb-4 md:mb-6"
+          style={{ opacity: 0 }}
+        >
+          Seaside Resort &amp; Beachfront Estate
+        </p>
 
-        {/* RIGHT — KINGDOM */}
-        <div className="col-span-12 md:col-span-6 text-center md:text-left order-3">
-          <p
-            ref={rightEyebrowRef}
-            className="eyebrow eyebrow-on-photo mb-3 md:mb-5"
-            style={{ opacity: 0 }}
-          >
-            Hospitality since 1994
-          </p>
-          <h1 ref={rightWordRef} className="font-display font-extrabold" style={wordStyle}>
-            KINGDOM
-          </h1>
-          <p
-            ref={subtitleRef}
-            className="font-body text-[13px] mt-5 md:mt-7"
-            style={{ color: 'rgba(255,255,255,0.85)', opacity: 0 }}
-          >
-            Aberdeen, Freetown &middot; <span className="tabular-nums">{now}</span>
-          </p>
-        </div>
+        {/* Wordmark — stacked & centred */}
+        <h1
+          ref={leftWordRef}
+          className="font-display font-extrabold"
+          style={wordStyle}
+        >
+          FAMILY
+        </h1>
+        <h1
+          ref={rightWordRef}
+          className="font-display font-extrabold"
+          style={wordStyle}
+        >
+          KINGDOM
+        </h1>
+
+        {/* Bottom eyebrow */}
+        <p
+          ref={rightEyebrowRef}
+          className="eyebrow-on-photo font-script mt-5 md:mt-7"
+          style={{ opacity: 0, fontWeight: 500, fontSize: '1.35rem', lineHeight: 1 }}
+        >
+          Hospitality since 1994
+        </p>
+
+        {/* Location + live time */}
+        <p
+          ref={subtitleRef}
+          className="font-body text-[13px] mt-3"
+          style={{ color: 'rgba(255,255,255,0.8)', opacity: 0 }}
+        >
+          Aberdeen, Freetown &middot; <span className="tabular-nums">{now}</span>
+        </p>
       </div>
 
       <style>{`

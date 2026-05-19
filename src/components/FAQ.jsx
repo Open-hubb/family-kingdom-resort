@@ -6,15 +6,15 @@ import { Plus } from 'lucide-react'
 const FAQS = [
   {
     q: 'What time is check-in and check-out?',
-    a: 'Check-in is from 2:00 PM and check-out is at 12:30 PM. Earlier or later times can usually be arranged on request — just let reception know in advance.',
+    a: 'Check-in is from 2:00 PM and check-out is at 12 PM. Earlier or later times can usually be arranged on request — just let reception know in advance.',
   },
   {
     q: 'Is airport pickup included?',
-    a: 'Yes. We offer complimentary pickup from Lungi International Airport, including the ferry terminal transfer. Send us your flight details and our driver will be there.',
+    a: 'No, but we offer complimentary pickup from sea coach.',
   },
   {
     q: 'How far is the beach from the resort?',
-    a: 'Aberdeen Beach is a one-minute walk through our private gate. We provide beach towels, and our staff can arrange chairs and sun umbrellas for your visit.',
+    a: 'Aberdeen Beach is a one-minute walk through our private gate.',
   },
   {
     q: 'Do you accommodate families with children?',
@@ -34,13 +34,13 @@ const FAQS = [
         >
           Flot
         </a>
-        .
+        , cash payment is also accepted.
       </>
     ),
   },
   {
     q: 'Can I host an event or wedding here?',
-    a: 'Yes. We have a conference hall, a banquet hall, and beachfront ceremony spaces. Our events team handles catering, AV, and decor — reach out for a tailored proposal.',
+    a: 'Yes. We have a conference hall, a banquet hall, and beachfront ceremony spaces. Our events team handles catering and AV — reach out for a tailored proposal.',
   },
 ]
 

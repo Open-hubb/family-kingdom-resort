@@ -832,10 +832,10 @@ export default function BookingModal() {
         className="absolute inset-0 overflow-y-auto overscroll-contain"
         style={{ WebkitOverflowScrolling: 'touch' }}
       >
-        <div className="min-h-full flex items-start sm:items-center justify-center p-3 sm:p-6">
+        <div className="min-h-full grid place-items-center p-3 sm:p-6">
           <div
             ref={contentRef}
-            className="relative w-full max-w-3xl rounded-2xl p-5 sm:p-7 md:p-8 my-2 sm:my-6"
+            className="relative w-full max-w-3xl rounded-2xl p-5 sm:p-7 md:p-8"
             style={{
               backgroundColor: 'var(--color-offwhite)',
               boxShadow: '0 25px 80px rgba(12,35,64,0.25)',
